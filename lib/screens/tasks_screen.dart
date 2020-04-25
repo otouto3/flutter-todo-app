@@ -6,47 +6,73 @@ class TasksScreen extends StatelessWidget {
     return Scaffold(
       //backgroundColor: Color.fromARGB(255, 250, 243, 240),
       backgroundColor: Colors.cyan,
-      body: SafeArea(
-        child: Column(
-          children: <Widget>[],
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          //押すとTaskCardを生成
+        },
+        backgroundColor: Colors.white,
+        child: Icon(
+          Icons.add,
+          color: Colors.black,
+          size: 40.0,
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.date_range,
-              size: 30.0,
-              color: Colors.black,
-            ),
-            title: Text('Home'),
-          ),
-          BottomNavigationBarItem(
-            icon: CircleAvatar(
-              child: Icon(
-                Icons.add,
-                size: 30.0,
+      body: SafeArea(
+        child: Column(
+          children: <Widget>[
+            Text(
+              'Today',
+              style: TextStyle(
                 color: Colors.white,
+                fontSize: 50.0,
+                fontWeight: FontWeight.w700,
               ),
-              backgroundColor: Colors.cyan,
-              radius: 20.0,
             ),
-            title: Text('add task'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.check_box,
-              size: 30.0,
-              color: Colors.black,
+            Text(
+              '12 tasks',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 30.0,
+                fontWeight: FontWeight.w700,
+              ),
             ),
-            title: Text('check box'),
+            TaskCard(),
+            TaskCard(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class TaskCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20.0),
+      width: double.infinity,
+      height: 80.0,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: ListTile(
+        trailing: Checkbox(
+          value: false,
+        ),
+        title: Text(
+          'カラオケ',
+          style: TextStyle(
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold,
           ),
-        ],
-        //  currentIndex: _selectedIndex,
-        //  selectedItemColor: Colors.amber[800],
-        //  onTap: _onItemTapped,
+        ),
+        subtitle: Text(
+          '2020.4.12 18:00~',
+          style: TextStyle(
+            fontSize: 20.0,
+          ),
+        ),
       ),
     );
   }
