@@ -56,23 +56,28 @@ class TaskCard extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(10.0),
       ),
-      child: ListTile(
-        trailing: Checkbox(
-          value: false,
-        ),
-        title: Text(
-          'カラオケ',
-          style: TextStyle(
-            fontSize: 20.0,
-            fontWeight: FontWeight.bold,
+      //child:
+      child: ListView(
+        children: <Widget>[
+          ListTile(
+            trailing: Checkbox(
+              value: false,
+            ),
+            title: Text(
+              'カラオケ',
+              style: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            subtitle: Text(
+              '2020.4.12 18:00~',
+              style: TextStyle(
+                fontSize: 20.0,
+              ),
+            ),
           ),
-        ),
-        subtitle: Text(
-          '2020.4.12 18:00~',
-          style: TextStyle(
-            fontSize: 20.0,
-          ),
-        ),
+        ],
       ),
     );
   }
