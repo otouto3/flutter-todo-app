@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'screens/tasks_screen.dart';
 import 'screens/calender_screen.dart';
 import 'screens/done_tasks_screen.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() {
-  runApp(MyApp());
+  initializeDateFormatting().then((_) => runApp(MyApp()));
 }
 
 class MyApp extends StatelessWidget {
