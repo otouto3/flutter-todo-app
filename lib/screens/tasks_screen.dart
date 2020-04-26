@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/widget/tasks_list.dart';
+import 'package:todoapp/screens/add_task_screen.dart';
 
 class TasksScreen extends StatelessWidget {
+  Widget builderBottomSheet(BuildContext context) {
+    return Container();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -9,7 +14,17 @@ class TasksScreen extends StatelessWidget {
       backgroundColor: Colors.cyan,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          //押すとTaskCardを生成
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            builder: (context) => SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                child: AddTaskScreen(),
+              ),
+            ),
+          );
         },
         backgroundColor: Colors.white,
         child: Icon(
