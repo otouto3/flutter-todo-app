@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todoapp/widget/tasks_list.dart';
 
 class TasksScreen extends StatelessWidget {
   @override
@@ -36,48 +37,21 @@ class TasksScreen extends StatelessWidget {
                 fontWeight: FontWeight.w700,
               ),
             ),
-            TaskCard(),
-            TaskCard(),
+            Expanded(
+              child: Container(
+                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20.0),
+                //width: double.infinity,
+                //height: 80.0,
+                decoration: BoxDecoration(
+                  color: Colors.cyan,
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                //child:
+                child: TasksList(),
+              ),
+            ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class TaskCard extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20.0),
-      width: double.infinity,
-      height: 80.0,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      //child:
-      child: ListView(
-        children: <Widget>[
-          ListTile(
-            trailing: Checkbox(
-              value: false,
-            ),
-            title: Text(
-              'カラオケ',
-              style: TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            subtitle: Text(
-              '2020.4.12 18:00~',
-              style: TextStyle(
-                fontSize: 20.0,
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
