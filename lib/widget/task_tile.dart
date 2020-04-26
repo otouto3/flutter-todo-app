@@ -1,6 +1,19 @@
 import 'package:flutter/material.dart';
 
-class TaskTile extends StatelessWidget {
+class TaskTile extends StatefulWidget {
+  @override
+  _TaskTileState createState() => _TaskTileState();
+}
+
+class _TaskTileState extends State<TaskTile> {
+  bool isChecked = false;
+
+  void checkboxCallback(bool checkBoxState) {
+    setState(() {
+      isChecked = checkBoxState;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -11,12 +24,12 @@ class TaskTile extends StatelessWidget {
       ),
       child: ListTile(
         //leading: Icon(Icons.accessibility),
-        trailing: Checkbox(
-          value: false,
-        ),
+        trailing: TaskCheckBox(
+            checkboxState: isChecked, toggleCheckboxState: checkboxCallback),
         title: Text(
           'カラオケ',
           style: TextStyle(
+            decoration: isChecked ? TextDecoration.lineThrough : null,
             fontSize: 20.0,
             fontWeight: FontWeight.bold,
           ),
@@ -24,10 +37,27 @@ class TaskTile extends StatelessWidget {
         subtitle: Text(
           '2020.4.12 18:00~',
           style: TextStyle(
+            decoration: isChecked ? TextDecoration.lineThrough : null,
             fontSize: 20.0,
           ),
         ),
       ),
+    );
+  }
+}
+
+class TaskCheckBox extends StatelessWidget {
+  final bool checkboxState;
+  final Function toggleCheckboxState;
+
+  TaskCheckBox({this.checkboxState, this.toggleCheckboxState});
+
+  @override
+  Widget build(BuildContext context) {
+    return Checkbox(
+      activeColor: Colors.cyan,
+      value: checkboxState,
+      onChanged: toggleCheckboxState,
     );
   }
 }
