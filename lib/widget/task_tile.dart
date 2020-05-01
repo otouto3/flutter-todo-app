@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 
 class TaskTile extends StatelessWidget {
+  final bool isChecked;
+  final String taskTitle;
+  final String taskDate;
+  final Function checkboxCallback;
+
+  TaskTile(
+      {this.isChecked, this.taskTitle, this.taskDate, this.checkboxCallback});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -12,18 +20,22 @@ class TaskTile extends StatelessWidget {
       child: ListTile(
         //leading: Icon(Icons.accessibility),
         trailing: Checkbox(
-          value: false,
+          activeColor: Colors.cyan,
+          value: isChecked,
+          onChanged: checkboxCallback,
         ),
         title: Text(
-          'カラオケ',
+          taskTitle,
           style: TextStyle(
+            decoration: isChecked ? TextDecoration.lineThrough : null,
             fontSize: 20.0,
             fontWeight: FontWeight.bold,
           ),
         ),
         subtitle: Text(
-          '2020.4.12 18:00~',
+          taskDate,
           style: TextStyle(
+            decoration: isChecked ? TextDecoration.lineThrough : null,
             fontSize: 20.0,
           ),
         ),
