@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/widget/tasks_list.dart';
 import 'package:todoapp/screens/add_task_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:todoapp/models/task_data.dart';
 
-class TasksScreen extends StatelessWidget {
+class TasksScreen extends StatefulWidget {
+  @override
+  _TasksScreenState createState() => _TasksScreenState();
+}
+
+class _TasksScreenState extends State<TasksScreen> {
   Widget builderBottomSheet(BuildContext context) {
     return Container();
   }
@@ -37,7 +44,7 @@ class TasksScreen extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Text(
-              'Today',
+              'Todo',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 50.0,
@@ -45,7 +52,7 @@ class TasksScreen extends StatelessWidget {
               ),
             ),
             Text(
-              '12 tasks',
+              '${Provider.of<TaskData>(context).taskCount} tasks',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 30.0,

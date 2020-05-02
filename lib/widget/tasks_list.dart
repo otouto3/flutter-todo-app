@@ -1,34 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/widget/task_tile.dart';
-import 'package:todoapp/models/task.dart';
+import 'package:provider/provider.dart';
+import 'package:todoapp/models/task_data.dart';
 
-class TasksList extends StatefulWidget {
-  @override
-  _TasksListState createState() => _TasksListState();
-}
-
-class _TasksListState extends State<TasksList> {
-  List<Task> tasks = [
-    Task(name: 'カラオケに行く', date: '2020-04-03 10:21'),
-    Task(name: '美味しい物を食べる', date: '2020-05-02 21:19'),
-    Task(name: '遊ぶ'),
-  ];
-
+class TasksList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemBuilder: (context, index) {
-        return TaskTile(
-            taskTitle: tasks[index].name,
-            taskDate: tasks[index].date,
-            isChecked: tasks[index].isDone,
-            checkboxCallback: (checkBoxState) {
-              setState(() {
-                tasks[index].toggleDone();
-              });
-            });
+    return Consumer<TaskData>(
+      builder: (context, taskData, child) {
+        return ListView.builder(
+          itemBuilder: (context, index) {
+            final task = taskData.tasks[index];
+            return TaskTile(
+                taskTitle: task.name,
+                taskDate: task.date,
+                isChecked: task.isDone,
+                checkboxCallback: (checkBoxState) {
+                  taskData.updateTask(task);
+                });
+          },
+          itemCount: taskData.taskCount,
+        );
       },
-      itemCount: tasks.length,
     );
   }
 }

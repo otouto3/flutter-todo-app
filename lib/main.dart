@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todoapp/models/task_data.dart';
 import 'screens/tasks_screen.dart';
 import 'screens/calender_screen.dart';
 import 'screens/done_tasks_screen.dart';
@@ -19,7 +21,12 @@ class MyApp extends StatelessWidget {
         //accentColor: Colors.cyan,
         //canvasColor: Colors.white,
       ),
-      home: MyHomePage(),
+      home: ChangeNotifierProvider(
+        create: (context) => TaskData(),
+        child: MaterialApp(
+          home: MyHomePage(),
+        ),
+      ),
     );
   }
 }
