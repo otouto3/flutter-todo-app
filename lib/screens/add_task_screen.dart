@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:todoapp/widget/date_time_field.dart';
 import 'package:intl/intl.dart';
@@ -41,6 +42,7 @@ class AddTaskScreen extends StatelessWidget {
             ),
             TextField(
               autofocus: true,
+              maxLength: 100,
               textAlign: TextAlign.center,
               onChanged: (newText) {
                 newTaskTitle = newText;
@@ -68,7 +70,30 @@ class AddTaskScreen extends StatelessWidget {
               ),
               color: Colors.cyan,
               onPressed: () {
-                addTaskCallback(newTaskTitle, newTaskDate);
+                //時刻が入力されなかった時のエラーを防ぐ
+                if (newTaskDate == null) {
+                  newTaskDate = "";
+                }
+
+                //テキスト未入力のエラーを防ぐ
+                if (newTaskTitle == null) {
+                  showDialog(
+                    context: (context),
+                    builder: (_) {
+                      return AlertDialog(
+                        title: Text('タスク名を入力してください。'),
+                        actions: <Widget>[
+                          FlatButton(
+                            child: Text("OK"),
+                            onPressed: () => Navigator.pop(context),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                } else {
+                  addTaskCallback(newTaskTitle, newTaskDate);
+                }
               },
             ),
           ],
