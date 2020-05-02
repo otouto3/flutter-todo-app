@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/widget/date_time_field.dart';
+import 'package:intl/intl.dart';
 
 class AddTaskScreen extends StatelessWidget {
+  final Function addTaskCallback;
+  final format = DateFormat("yyyy-MM-dd HH:mm");
+
+  AddTaskScreen(this.addTaskCallback);
+
   @override
   Widget build(BuildContext context) {
+    String newTaskTitle;
+    String newTaskDate;
     return Container(
       color: Color(0xff757575),
       child: Container(
@@ -34,6 +42,9 @@ class AddTaskScreen extends StatelessWidget {
             TextField(
               autofocus: true,
               textAlign: TextAlign.center,
+              onChanged: (newText) {
+                newTaskTitle = newText;
+              },
             ),
             Text(
               'date',
@@ -42,7 +53,11 @@ class AddTaskScreen extends StatelessWidget {
                 color: Colors.cyan[300],
               ),
             ),
-            BasicDateTimeField(),
+            BasicDateTimeField(
+              onChanged: (newDate) {
+                newTaskDate = format.format(newDate);
+              },
+            ),
             FlatButton(
               child: Text(
                 'Add',
@@ -53,7 +68,7 @@ class AddTaskScreen extends StatelessWidget {
               ),
               color: Colors.cyan,
               onPressed: () {
-                //Add our task to the list.
+                addTaskCallback(newTaskTitle, newTaskDate);
               },
             ),
           ],
