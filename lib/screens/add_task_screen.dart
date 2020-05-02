@@ -1,13 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:todoapp/models/task_data.dart';
 import 'package:todoapp/widget/date_time_field.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class AddTaskScreen extends StatelessWidget {
-  final Function addTaskCallback;
   final format = DateFormat("yyyy-MM-dd HH:mm");
-
-  AddTaskScreen(this.addTaskCallback);
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +78,7 @@ class AddTaskScreen extends StatelessWidget {
                 if (newTaskTitle == null) {
                   showDialog(
                     context: (context),
-                    builder: (_) {
+                    builder: (BuildContext context) {
                       return AlertDialog(
                         title: Text('タスク名を入力してください。'),
                         actions: <Widget>[
@@ -92,7 +91,9 @@ class AddTaskScreen extends StatelessWidget {
                     },
                   );
                 } else {
-                  addTaskCallback(newTaskTitle, newTaskDate);
+                  Provider.of<TaskData>(context, listen: false)
+                      .addTask(newTaskTitle, newTaskDate);
+                  Navigator.pop(context);
                 }
               },
             ),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/widget/tasks_list.dart';
 import 'package:todoapp/screens/add_task_screen.dart';
-import 'package:todoapp/models/task.dart';
+import 'package:provider/provider.dart';
+import 'package:todoapp/models/task_data.dart';
 
 class TasksScreen extends StatefulWidget {
   @override
@@ -9,12 +10,6 @@ class TasksScreen extends StatefulWidget {
 }
 
 class _TasksScreenState extends State<TasksScreen> {
-  List<Task> tasks = [
-    Task(name: 'カラオケに行く', date: '2020-04-03 10:21'),
-    Task(name: '美味しい物を食べる', date: '2020-05-02 21:19'),
-    Task(name: '遊ぶ'),
-  ];
-
   Widget builderBottomSheet(BuildContext context) {
     return Container();
   }
@@ -33,14 +28,7 @@ class _TasksScreenState extends State<TasksScreen> {
               child: Container(
                 padding: EdgeInsets.only(
                     bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: AddTaskScreen((newTaskTitle, newTaskDate) {
-                  setState(() {
-                    tasks.add(
-                      Task(name: newTaskTitle, date: newTaskDate),
-                    );
-                  });
-                  Navigator.pop(context);
-                }),
+                child: AddTaskScreen(),
               ),
             ),
           );
@@ -64,7 +52,7 @@ class _TasksScreenState extends State<TasksScreen> {
               ),
             ),
             Text(
-              '${tasks.length} tasks',
+              '${Provider.of<TaskData>(context).taskCount} tasks',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 30.0,
@@ -81,9 +69,7 @@ class _TasksScreenState extends State<TasksScreen> {
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 //child:
-                child: TasksList(
-                  tasks: tasks,
-                ),
+                child: TasksList(),
               ),
             ),
           ],
