@@ -41,6 +41,7 @@ class AddTaskScreen extends StatelessWidget {
             ),
             TextField(
               autofocus: true,
+              maxLength: 100,
               textAlign: TextAlign.center,
               onChanged: (newText) {
                 newTaskTitle = newText;
@@ -68,6 +69,10 @@ class AddTaskScreen extends StatelessWidget {
               ),
               color: Colors.cyan,
               onPressed: () {
+                //時刻が入力されなかった時のエラーを防ぐ
+                if (newTaskDate == null) {
+                  newTaskDate = "";
+                }
                 addTaskCallback(newTaskTitle, newTaskDate);
               },
             ),
