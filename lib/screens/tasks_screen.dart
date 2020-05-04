@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:todoapp/widget/tasks_list.dart';
 import 'package:todoapp/screens/add_task_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:todoapp/models/task_data.dart';
+
+import '../models/todo_model.dart';
+import '../widget/todo_list.dart';
 
 class TasksScreen extends StatefulWidget {
   @override
@@ -52,7 +53,7 @@ class _TasksScreenState extends State<TasksScreen> {
               ),
             ),
             Text(
-              '${Provider.of<TaskData>(context).taskCount} tasks',
+              '${Provider.of<TodoModel>(context).incompletedTodoList.length} tasks',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 30.0,
@@ -69,7 +70,10 @@ class _TasksScreenState extends State<TasksScreen> {
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 //child:
-                child: TasksList(),
+                child: TodoList(
+                  todoList: Provider.of<TodoModel>(context).incompletedTodoList,
+                  todoModel: Provider.of<TodoModel>(context),
+                ),
               ),
             ),
           ],

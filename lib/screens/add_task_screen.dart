@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:todoapp/models/task_data.dart';
+import 'package:todoapp/models/todo_model.dart';
 import 'package:todoapp/widget/date_time_field.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:todoapp/models/todo.dart';
 
 class AddTaskScreen extends StatelessWidget {
   final format = DateFormat("yyyy-MM-dd HH:mm");
@@ -93,6 +95,8 @@ class AddTaskScreen extends StatelessWidget {
                 } else {
                   Provider.of<TaskData>(context, listen: false)
                       .addTask(newTaskTitle, newTaskDate);
+                  Provider.of<TodoModel>(context, listen: false)
+                      .add(Todo(title: newTaskTitle, date: newTaskDate));
                   Navigator.pop(context);
                 }
               },

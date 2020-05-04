@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todoapp/models/task_data.dart';
+import 'package:todoapp/models/todo_model.dart';
 import 'screens/tasks_screen.dart';
 import 'screens/calender_screen.dart';
 import 'screens/done_tasks_screen.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'models/todo_model.dart';
 
 void main() {
   initializeDateFormatting().then((_) => runApp(MyApp()));
@@ -13,21 +15,29 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        //brightness: Brightness.dark,
-        primarySwatch: Colors.cyan,
-        //primaryColor: Colors.cyan,
-        //accentColor: Colors.cyan,
-        //canvasColor: Colors.white,
-      ),
-      home: ChangeNotifierProvider(
-        create: (context) => TaskData(),
-        child: MaterialApp(
-          home: MyHomePage(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => TaskData()),
+        ChangeNotifierProvider(create: (context) => TodoModel()),
+      ],
+      child: MaterialApp(
+        theme: ThemeData(
+          //brightness: Brightness.dark,
+          primarySwatch: Colors.cyan,
+          //primaryColor: Colors.cyan,
+          //accentColor: Colors.cyan,
+          //canvasColor: Colors.white,
         ),
+//        home: ChangeNotifierProvider(
+//          create: (context) {
+//            //return TaskData();
+//            return TodoModel();
+//          },
+        home: MyHomePage(),
       ),
     );
+    //),
+    //);
   }
 }
 
