@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todoapp/models/task_data.dart';
 import 'package:todoapp/models/todo_model.dart';
 import 'screens/tasks_screen.dart';
 import 'screens/calender_screen.dart';
@@ -15,29 +14,21 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => TaskData()),
-        ChangeNotifierProvider(create: (context) => TodoModel()),
-      ],
-      child: MaterialApp(
-        theme: ThemeData(
-          //brightness: Brightness.dark,
-          primarySwatch: Colors.cyan,
-          //primaryColor: Colors.cyan,
-          //accentColor: Colors.cyan,
-          //canvasColor: Colors.white,
+    return MaterialApp(
+      theme: ThemeData(
+        //brightness: Brightness.dark,
+        primarySwatch: Colors.cyan,
+        //primaryColor: Colors.cyan,
+        //accentColor: Colors.cyan,
+        //canvasColor: Colors.white,
+      ),
+      home: ChangeNotifierProvider(
+        create: (context) => TodoModel(),
+        child: MaterialApp(
+          home: MyHomePage(),
         ),
-//        home: ChangeNotifierProvider(
-//          create: (context) {
-//            //return TaskData();
-//            return TodoModel();
-//          },
-        home: MyHomePage(),
       ),
     );
-    //),
-    //);
   }
 }
 
@@ -68,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage>
       ),
       BottomNavigationBarItem(
         icon: Icon(
-          Icons.library_add,
+          Icons.check_box_outline_blank,
           size: 30.0,
           color: Colors.black,
         ),

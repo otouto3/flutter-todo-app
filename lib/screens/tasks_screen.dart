@@ -29,7 +29,6 @@ class _TasksScreenState extends State<TasksScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: Color.fromARGB(255, 250, 243, 240),
       backgroundColor: Colors.cyan,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
