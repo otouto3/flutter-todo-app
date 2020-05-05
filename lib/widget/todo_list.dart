@@ -12,7 +12,8 @@ class TodoList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (todoList.isEmpty) {
-      return Center(child: Text("No Items"));
+      //return Center(child: Text("No Items"));
+      return Center(child: Text(""));
     }
     return ListView.builder(
       itemBuilder: (context, index) {

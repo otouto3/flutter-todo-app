@@ -30,38 +30,30 @@ class _DoneTasksScreenState extends State<DoneTasksScreen> {
       body: SafeArea(
         child: Column(
           children: <Widget>[
-            CircularPercentIndicator(
-              radius: 200.0,
-              lineWidth: 26.0,
-              animation: true,
-              percent: percentTask,
-              center: Text(
-                "$taskRatio%",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
-              ),
-//              footer:  Text(
-//                "Sales this week",
-//                style:
-//                     TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0),
-//              ),
-              circularStrokeCap: CircularStrokeCap.round,
-              progressColor: Colors.purple,
-            ),
             Text(
-              'Done Task',
+              'Progress',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 50.0,
                 fontWeight: FontWeight.w700,
               ),
             ),
-            Text(
-              '${todoModel.completedTodoList.length} tasks',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 30.0,
-                fontWeight: FontWeight.w700,
+            CircularPercentIndicator(
+              radius: 180.0,
+              lineWidth: 23.0,
+              animation: true,
+              percent: percentTask,
+              center: Text(
+                "$taskRatio%",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
               ),
+//              footer: Text(
+//                "Progress",
+//                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0),
+//              ),
+              circularStrokeCap: CircularStrokeCap.round,
+              //progressColor: Color(0xFFA42481),
+              progressColor: Color(0xFFC7398E),
             ),
             Expanded(
               child: Container(
@@ -72,7 +64,6 @@ class _DoneTasksScreenState extends State<DoneTasksScreen> {
                   color: Colors.cyan,
                   borderRadius: BorderRadius.circular(10.0),
                 ),
-                //child:
                 //Todo #1 DBを引数にするか、TodoList側でDBを定義する(consumerを使う？)
                 child: TodoList(
                   todoList: todoModel.completedTodoList,

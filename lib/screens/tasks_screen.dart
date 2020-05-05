@@ -15,6 +15,17 @@ class _TasksScreenState extends State<TasksScreen> {
     return Container();
   }
 
+  String taskNumText() {
+    int num = Provider.of<TodoModel>(context).incompletedTodoList.length;
+    if (num == 0) {
+      return "No task";
+    } else if (num == 1) {
+      return "1 task";
+    } else {
+      return "$num tasks";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +64,7 @@ class _TasksScreenState extends State<TasksScreen> {
               ),
             ),
             Text(
-              '${Provider.of<TodoModel>(context).incompletedTodoList.length} tasks',
+              taskNumText(),
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 30.0,
