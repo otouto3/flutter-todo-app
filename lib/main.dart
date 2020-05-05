@@ -51,14 +51,6 @@ class _MyHomePageState extends State<MyHomePage>
     return [
       BottomNavigationBarItem(
         icon: Icon(
-          Icons.date_range,
-          size: 30.0,
-          color: Colors.black,
-        ),
-        title: Text('Home'),
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(
           Icons.check_box_outline_blank,
           size: 30.0,
           color: Colors.black,
@@ -72,6 +64,14 @@ class _MyHomePageState extends State<MyHomePage>
           color: Colors.black,
         ),
         title: Text('check box'),
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(
+          Icons.date_range,
+          size: 30.0,
+          color: Colors.black,
+        ),
+        title: Text('Home'),
       ),
     ];
   }
@@ -109,9 +109,9 @@ class _MyHomePageState extends State<MyHomePage>
         },
         // ページ下部のナビゲーションメニューに相当する各ページビュー。後述
         children: [
-          CalendarScreen(),
           TasksScreen(),
           DoneTasksScreen(),
+          CalendarScreen(),
         ],
       ),
       // ページ下部のナビゲーションメニュー
