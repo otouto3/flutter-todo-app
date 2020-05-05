@@ -67,6 +67,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     final _selectedDay = DateTime.now();
     for (int i = 0; i < todoList.length; i++) {
       final task = todoList[i];
+      if (task.date == "") continue; //dateが未入力だったら表示処理を行わない
       DateTime taskDate = DateTime.parse(task.date);
       DateTime dateFrom = DateTime(taskDate.year, taskDate.month, taskDate.day);
       DateTime dateTo =
