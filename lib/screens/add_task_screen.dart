@@ -1,17 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:todoapp/models/task_data.dart';
-import 'package:todoapp/widget/date_time_field.dart';
+import 'package:todoapp/models/todo_model.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:todoapp/models/todo.dart';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
-class AddTaskScreen extends StatelessWidget {
+class AddTaskScreen extends StatefulWidget {
+  @override
+  _AddTaskScreenState createState() => _AddTaskScreenState();
+}
+
+class _AddTaskScreenState extends State<AddTaskScreen> {
   final format = DateFormat("yyyy-MM-dd HH:mm");
+
+  final titleTextEditingController = TextEditingController();
+  final dateTextEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    String newTaskTitle;
-    String newTaskDate;
     return Container(
       color: Color(0xff757575),
       child: Container(
@@ -40,12 +47,10 @@ class AddTaskScreen extends StatelessWidget {
               ),
             ),
             TextField(
+              controller: titleTextEditingController,
               autofocus: true,
               maxLength: 100,
               textAlign: TextAlign.center,
-              onChanged: (newText) {
-                newTaskTitle = newText;
-              },
             ),
             Text(
               'date',
@@ -54,9 +59,25 @@ class AddTaskScreen extends StatelessWidget {
                 color: Colors.cyan[300],
               ),
             ),
-            BasicDateTimeField(
-              onChanged: (newDate) {
-                newTaskDate = format.format(newDate);
+            DateTimeField(
+              format: format,
+              controller: dateTextEditingController,
+              onShowPicker: (context, currentValue) async {
+                final date = await showDatePicker(
+                    context: context,
+                    firstDate: DateTime(1900),
+                    initialDate: currentValue ?? DateTime.now(),
+                    lastDate: DateTime(2100));
+                if (date != null) {
+                  final time = await showTimePicker(
+                    context: context,
+                    initialTime:
+                        TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),
+                  );
+                  return DateTimeField.combine(date, time);
+                } else {
+                  return currentValue;
+                }
               },
             ),
             FlatButton(
@@ -69,13 +90,8 @@ class AddTaskScreen extends StatelessWidget {
               ),
               color: Colors.cyan,
               onPressed: () {
-                //時刻が入力されなかった時のエラーを防ぐ
-                if (newTaskDate == null) {
-                  newTaskDate = "";
-                }
-
                 //テキスト未入力のエラーを防ぐ
-                if (newTaskTitle == null) {
+                if (titleTextEditingController.text == "") {
                   showDialog(
                     context: (context),
                     builder: (BuildContext context) {
@@ -91,8 +107,11 @@ class AddTaskScreen extends StatelessWidget {
                     },
                   );
                 } else {
-                  Provider.of<TaskData>(context, listen: false)
-                      .addTask(newTaskTitle, newTaskDate);
+                  print(titleTextEditingController.text);
+                  print(dateTextEditingController.text);
+                  Provider.of<TodoModel>(context, listen: false).add(Todo(
+                      title: titleTextEditingController.text,
+                      date: dateTextEditingController.text));
                   Navigator.pop(context);
                 }
               },
