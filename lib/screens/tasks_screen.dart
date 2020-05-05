@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:todoapp/widget/tasks_list.dart';
 import 'package:todoapp/screens/add_task_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:todoapp/models/task_data.dart';
+
+import '../models/todo_model.dart';
+import '../widget/todo_list.dart';
 
 class TasksScreen extends StatefulWidget {
   @override
@@ -14,10 +15,20 @@ class _TasksScreenState extends State<TasksScreen> {
     return Container();
   }
 
+  String taskNumText() {
+    int num = Provider.of<TodoModel>(context).incompletedTodoList.length;
+    if (num == 0) {
+      return "No task";
+    } else if (num == 1) {
+      return "1 task";
+    } else {
+      return "$num tasks";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: Color.fromARGB(255, 250, 243, 240),
       backgroundColor: Colors.cyan,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -52,7 +63,7 @@ class _TasksScreenState extends State<TasksScreen> {
               ),
             ),
             Text(
-              '${Provider.of<TaskData>(context).taskCount} tasks',
+              taskNumText(),
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 30.0,
@@ -69,7 +80,10 @@ class _TasksScreenState extends State<TasksScreen> {
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 //child:
-                child: TasksList(),
+                child: TodoList(
+                  todoList: Provider.of<TodoModel>(context).incompletedTodoList,
+                  todoModel: Provider.of<TodoModel>(context),
+                ),
               ),
             ),
           ],

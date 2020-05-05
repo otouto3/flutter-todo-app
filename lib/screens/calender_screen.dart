@@ -3,6 +3,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:provider/provider.dart';
+
+import '../models/todo_model.dart';
 
 // Example holidays
 final Map<DateTime, List> _holidays = {
@@ -46,59 +49,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     super.initState();
     final _selectedDay = DateTime.now();
 
-    _events = {
-      _selectedDay.subtract(Duration(days: 30)): [
-        'Event A0',
-        'Event B0',
-        'Event C0'
-      ],
-      _selectedDay.subtract(Duration(days: 27)): ['Event A1'],
-      _selectedDay.subtract(Duration(days: 20)): [
-        'Event A2',
-        'Event B2',
-        'Event C2',
-        'Event D2'
-      ],
-      _selectedDay.subtract(Duration(days: 16)): ['Event A3', 'Event B3'],
-      _selectedDay.subtract(Duration(days: 10)): [
-        'Event A4',
-        'Event B4',
-        'Event C4'
-      ],
-      _selectedDay.subtract(Duration(days: 4)): [
-        'Event A5',
-        'Event B5',
-        'Event C5'
-      ],
-      _selectedDay.subtract(Duration(days: 2)): ['Event A6', 'Event B6'],
-      _selectedDay: ['Event A7', 'Event B7', 'Event C7', 'Event D7'],
-      _selectedDay.add(Duration(days: 1)): [
-        'Event A8',
-        'Event B8',
-        'Event C8',
-        'Event D8'
-      ],
-      _selectedDay.add(Duration(days: 3)):
-          Set.from(['Event A9', 'Event A9', 'Event B9']).toList(),
-      _selectedDay.add(Duration(days: 7)): [
-        'Event A10',
-        'Event B10',
-        'Event C10'
-      ],
-      _selectedDay.add(Duration(days: 11)): ['Event A11', 'Event B11'],
-      _selectedDay.add(Duration(days: 17)): [
-        'Event A12',
-        'Event B12',
-        'Event C12',
-        'Event D12'
-      ],
-      _selectedDay.add(Duration(days: 22)): ['Event A13', 'Event B13'],
-      _selectedDay.add(Duration(days: 26)): [
-        'Event A14',
-        'Event B14',
-        'Event C14'
-      ],
-    };
+    _events = {};
 
     _selectedEvents = _events[_selectedDay] ?? [];
     _calendarController = CalendarController();
@@ -109,6 +60,22 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     );
 
     _animationController.forward();
+  }
+
+  void showTask() {
+    final todoList = Provider.of<TodoModel>(context).incompletedTodoList;
+    final _selectedDay = DateTime.now();
+    for (int i = 0; i < todoList.length; i++) {
+      final task = todoList[i];
+      DateTime taskDate = DateTime.parse(task.date);
+      DateTime dateFrom = DateTime(taskDate.year, taskDate.month, taskDate.day);
+      DateTime dateTo =
+          DateTime(_selectedDay.year, _selectedDay.month, _selectedDay.day);
+      int interval = (dateFrom.difference(dateTo)).inDays;
+      _events[_selectedDay.add(Duration(days: interval))] = [
+        task.title + ' ' + task.date
+      ];
+    }
   }
 
   @override
@@ -133,6 +100,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   void _onCalendarCreated(
       DateTime first, DateTime last, CalendarFormat format) {
     print('CALLBACK: _onCalendarCreated');
+    showTask();
   }
 
   @override

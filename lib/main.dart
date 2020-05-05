@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todoapp/models/task_data.dart';
+import 'package:todoapp/models/todo_model.dart';
 import 'screens/tasks_screen.dart';
 import 'screens/calender_screen.dart';
 import 'screens/done_tasks_screen.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'models/todo_model.dart';
 
 void main() {
   initializeDateFormatting().then((_) => runApp(MyApp()));
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
         //canvasColor: Colors.white,
       ),
       home: ChangeNotifierProvider(
-        create: (context) => TaskData(),
+        create: (context) => TodoModel(),
         child: MaterialApp(
           home: MyHomePage(),
         ),
@@ -50,15 +51,7 @@ class _MyHomePageState extends State<MyHomePage>
     return [
       BottomNavigationBarItem(
         icon: Icon(
-          Icons.date_range,
-          size: 30.0,
-          color: Colors.black,
-        ),
-        title: Text('Home'),
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(
-          Icons.library_add,
+          Icons.check_box_outline_blank,
           size: 30.0,
           color: Colors.black,
         ),
@@ -71,6 +64,14 @@ class _MyHomePageState extends State<MyHomePage>
           color: Colors.black,
         ),
         title: Text('check box'),
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(
+          Icons.date_range,
+          size: 30.0,
+          color: Colors.black,
+        ),
+        title: Text('Home'),
       ),
     ];
   }
@@ -108,9 +109,9 @@ class _MyHomePageState extends State<MyHomePage>
         },
         // ページ下部のナビゲーションメニューに相当する各ページビュー。後述
         children: [
-          CalendarScreen(),
           TasksScreen(),
           DoneTasksScreen(),
+          CalendarScreen(),
         ],
       ),
       // ページ下部のナビゲーションメニュー

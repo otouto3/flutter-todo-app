@@ -6,13 +6,15 @@ class TaskTile extends StatelessWidget {
   final String taskDate;
   final Function checkboxCallback;
   final Function longPressCallback;
+  final Function deleteCallback;
 
   TaskTile(
       {this.isChecked,
       this.taskTitle,
       this.taskDate,
       this.checkboxCallback,
-      this.longPressCallback});
+      this.longPressCallback,
+      this.deleteCallback});
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +26,14 @@ class TaskTile extends StatelessWidget {
       ),
       child: ListTile(
         //leading: Icon(Icons.accessibility),
-        trailing: Checkbox(
+        leading: Checkbox(
           activeColor: Colors.cyan,
           value: isChecked,
           onChanged: checkboxCallback,
+        ),
+        trailing: FlatButton(
+          child: Icon(Icons.delete),
+          onPressed: deleteCallback,
         ),
         onLongPress: longPressCallback,
         title: Text(
