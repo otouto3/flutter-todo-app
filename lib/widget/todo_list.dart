@@ -31,7 +31,29 @@ class TodoList extends StatelessWidget {
             //taskData.deleteTask(task);
           },
           deleteCallback: () {
-            todoModel.remove(task);
+            showDialog(
+              context: (context),
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('タスクを削除してもいいですか？'),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text("NO"),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    FlatButton(
+                      child: Text("OK"),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        todoModel.remove(task);
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
           },
         );
       },
