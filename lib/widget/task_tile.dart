@@ -16,6 +16,19 @@ class TaskTile extends StatelessWidget {
       this.longPressCallback,
       this.deleteCallback});
 
+  String showDate(String taskDate) {
+    if (taskDate == "") {
+      return taskDate;
+    } else {
+      DateTime date = DateTime.parse(taskDate);
+      String month = date.month.toString();
+      String day = date.day.toString();
+      String hour = date.hour.toString();
+      String minute = date.minute.toString();
+      return month + "/" + day + " " + hour + ":" + minute;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,10 +44,40 @@ class TaskTile extends StatelessWidget {
           value: isChecked,
           onChanged: checkboxCallback,
         ),
-        trailing: FlatButton(
-          child: Icon(Icons.delete),
-          onPressed: deleteCallback,
+        trailing: Wrap(
+          //mainAxisSize: MainAxisSize.min,
+          spacing: 0,
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.edit),
+              onPressed: () {},
+            ),
+            IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: deleteCallback,
+            ),
+          ],
         ),
+//        trailing: Row(
+//          //spacing: -60,
+//          mainAxisSize: MainAxisSize.min,
+//          children: <Widget>[
+//            ButtonTheme(
+//              minWidth: 3.0,
+//              child: FlatButton(
+//                child: Icon(Icons.edit),
+//                onPressed: () {},
+//              ),
+//            ),
+//            ButtonTheme(
+//              minWidth: 3,
+//              child: FlatButton(
+//                child: Icon(Icons.delete),
+//                onPressed: deleteCallback,
+//              ),
+//            ),
+//          ],
+//        ),
         onLongPress: longPressCallback,
         title: Text(
           taskTitle,
@@ -45,7 +88,7 @@ class TaskTile extends StatelessWidget {
           ),
         ),
         subtitle: Text(
-          taskDate,
+          showDate(taskDate),
           style: TextStyle(
             decoration: isChecked ? TextDecoration.lineThrough : null,
             fontSize: 20.0,

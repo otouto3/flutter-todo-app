@@ -74,8 +74,22 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           DateTime(_selectedDay.year, _selectedDay.month, _selectedDay.day);
       int interval = (dateFrom.difference(dateTo)).inDays;
       _events[_selectedDay.add(Duration(days: interval))] = [
-        task.title + ' ' + task.date
+        task.title + " " + showDate(task.date),
       ];
+    }
+  }
+
+  String showDate(String taskDate) {
+    if (taskDate == "") {
+      return taskDate;
+    } else {
+      DateTime date = DateTime.parse(taskDate);
+      String year = date.year.toString();
+      String month = date.month.toString();
+      String day = date.day.toString();
+      String hour = date.hour.toString();
+      String minute = date.minute.toString();
+      return year + "/" + month + "/" + day + " " + hour + ":" + minute;
     }
   }
 
