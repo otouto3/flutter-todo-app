@@ -24,6 +24,7 @@ class TodoDao {
     final db = await dbProvider.database;
     var result = await db.update(tableName, todo.toDatabaseJson(),
         where: "id = ?", whereArgs: [todo.id]);
+
     return result;
   }
 

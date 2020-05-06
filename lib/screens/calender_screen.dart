@@ -88,7 +88,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       String month = date.month.toString();
       String day = date.day.toString();
       String hour = date.hour.toString();
-      String minute = date.minute.toString();
+      // 13時04分だったら 13:4と表示せずに13:04とするようにした
+      String minute = date.minute >= 9
+          ? date.minute.toString()
+          : '0' + date.minute.toString();
       return year + "/" + month + "/" + day + " " + hour + ":" + minute;
     }
   }

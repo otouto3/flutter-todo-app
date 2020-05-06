@@ -7,6 +7,8 @@ import 'package:todoapp/models/todo.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
 class EditTaskScreen extends StatefulWidget {
+  final Todo task;
+  EditTaskScreen({this.task});
   @override
   _EditTaskScreenState createState() => _EditTaskScreenState();
 }
@@ -14,11 +16,12 @@ class EditTaskScreen extends StatefulWidget {
 class _EditTaskScreenState extends State<EditTaskScreen> {
   final format = DateFormat("yyyy-MM-dd HH:mm");
 
-  final titleTextEditingController = TextEditingController(text: 'タイトル初期値');
-  final dateTextEditingController = TextEditingController(text: '日付初期値');
-
   @override
   Widget build(BuildContext context) {
+    final titleTextEditingController =
+        TextEditingController(text: widget.task.title);
+    final dateTextEditingController =
+        TextEditingController(text: widget.task.date);
     return Container(
       color: Color(0xff757575),
       child: Container(
@@ -107,11 +110,21 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                     },
                   );
                 } else {
-                  print(titleTextEditingController.text);
-                  print(dateTextEditingController.text);
-                  Provider.of<TodoModel>(context, listen: false).update(Todo(
-                      title: titleTextEditingController.text,
-                      date: dateTextEditingController.text));
+                  Provider.of<TodoModel>(context, listen: false).update(
+                    //updateの時はidを指定しないといけない
+                    Todo(
+                        id: widget.task.id,
+                        title: titleTextEditingController.text,
+                        date: dateTextEditingController.text),
+                  );
+//                  List list = (Provider.of<TodoModel>(context, listen: false)
+//                      .incompletedTodoList);
+//                  for (int i = 0; i < list.length; i++) {
+//                    Todo task = list[i];
+//                    print(task.id);
+//                    print(task.title);
+//                    print(task.date);
+//                  }
                   Navigator.pop(context);
                 }
               },

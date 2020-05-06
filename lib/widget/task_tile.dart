@@ -5,7 +5,7 @@ class TaskTile extends StatelessWidget {
   final String taskTitle;
   final String taskDate;
   final Function checkboxCallback;
-  final Function longPressCallback;
+  final Function editButtonCallback;
   final Function deleteCallback;
 
   TaskTile(
@@ -13,7 +13,7 @@ class TaskTile extends StatelessWidget {
       this.taskTitle,
       this.taskDate,
       this.checkboxCallback,
-      this.longPressCallback,
+      this.editButtonCallback,
       this.deleteCallback});
 
   String showDate(String taskDate) {
@@ -24,7 +24,10 @@ class TaskTile extends StatelessWidget {
       String month = date.month.toString();
       String day = date.day.toString();
       String hour = date.hour.toString();
-      String minute = date.minute.toString();
+      // 13時04分だったら 13:4と表示せずに13:04とするようにした
+      String minute = date.minute >= 9
+          ? date.minute.toString()
+          : '0' + date.minute.toString();
       return month + "/" + day + " " + hour + ":" + minute;
     }
   }
@@ -50,7 +53,7 @@ class TaskTile extends StatelessWidget {
           children: <Widget>[
             IconButton(
               icon: Icon(Icons.edit),
-              onPressed: () {},
+              onPressed: editButtonCallback,
             ),
             IconButton(
               icon: Icon(Icons.delete),
@@ -78,7 +81,6 @@ class TaskTile extends StatelessWidget {
 //            ),
 //          ],
 //        ),
-        onLongPress: longPressCallback,
         title: Text(
           taskTitle,
           style: TextStyle(

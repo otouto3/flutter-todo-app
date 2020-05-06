@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todoapp/widget/task_tile.dart';
 import '../models/todo.dart';
 import '../models/todo_model.dart';
+import '../screens/edit_task_screen.dart';
 
 class TodoList extends StatelessWidget {
   final List<Todo> todoList;
@@ -27,8 +28,18 @@ class TodoList extends StatelessWidget {
             //task.toggleDone();
             todoModel.toggleIsDone(task);
           },
-          longPressCallback: () {
-            //taskData.deleteTask(task);
+          editButtonCallback: () {
+            showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              builder: (context) => SingleChildScrollView(
+                child: Container(
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewInsets.bottom),
+                  child: EditTaskScreen(task: task),
+                ),
+              ),
+            );
           },
           deleteCallback: () {
             showDialog(
