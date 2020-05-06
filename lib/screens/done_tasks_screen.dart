@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:todoapp/models/todo_model.dart';
 import 'package:provider/provider.dart';
 import 'package:todoapp/widget/todo_list.dart';
-import 'package:percent_indicator/percent_indicator.dart';
+//import 'package:percent_indicator/percent_indicator.dart';
+import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class DoneTasksScreen extends StatefulWidget {
   @override
@@ -17,12 +18,12 @@ class _DoneTasksScreenState extends State<DoneTasksScreen> {
   @override
   Widget build(BuildContext context) {
     final todoModel = Provider.of<TodoModel>(context);
-    double percentTask = todoModel.completedTodoList.length /
-        (todoModel.completedTodoList.length +
-            todoModel.incompletedTodoList.length);
-    if (todoModel.incompletedTodoList.length == 0 &&
-        todoModel.completedTodoList.length == 0) {
+    int totalStep = todoModel.completedTodoList.length +
+        todoModel.incompletedTodoList.length;
+    double percentTask = todoModel.completedTodoList.length / totalStep;
+    if (totalStep == 0) {
       percentTask = 0;
+      totalStep = 1;
     }
     int taskRatio = (percentTask * 100).round();
     return Scaffold(
@@ -38,23 +39,31 @@ class _DoneTasksScreenState extends State<DoneTasksScreen> {
                 fontWeight: FontWeight.w700,
               ),
             ),
-            CircularPercentIndicator(
-              radius: 180.0,
-              lineWidth: 23.0,
-              animation: true,
-              percent: percentTask,
-              center: Text(
-                "$taskRatio%",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
-              ),
-//              footer: Text(
-//                "Progress",
-//                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0),
-//              ),
-              circularStrokeCap: CircularStrokeCap.round,
-              //progressColor: Color(0xFFA42481),
-              progressColor: Color(0xFFC7398E),
+            CircularStepProgressIndicator(
+              totalSteps: totalStep,
+              currentStep: todoModel.completedTodoList.length,
+              width: 150,
+              height: 150,
+              //selectedColor: Color(0xFFA42481),
+              selectedColor: Colors.cyanAccent,
             ),
+//            CircularPercentIndicator(
+//              radius: 180.0,
+//              lineWidth: 23.0,
+//              animation: true,
+//              percent: percentTask,
+//              center: Text(
+//                "$taskRatio%",
+//                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
+//              ),
+////              footer: Text(
+////                "Progress",
+////                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0),
+////              ),
+//              circularStrokeCap: CircularStrokeCap.round,
+//              //progressColor: Color(0xFFA42481),
+//              progressColor: Color(0xFFC7398E),
+//            ),
             Expanded(
               child: Container(
                 margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20.0),
