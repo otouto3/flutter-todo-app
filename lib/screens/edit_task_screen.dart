@@ -18,10 +18,11 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final task = widget.task;
     final titleTextEditingController =
-        TextEditingController(text: widget.task.title);
+        TextEditingController(text: task.title);
     final dateTextEditingController =
-        TextEditingController(text: widget.task.date);
+        TextEditingController(text: task.date);
     return Container(
       color: Color(0xff757575),
       child: Container(
@@ -113,7 +114,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                   Provider.of<TodoModel>(context, listen: false).update(
                     //updateの時はidを指定しないといけない
                     Todo(
-                        id: widget.task.id,
+                        id: task.id,
                         title: titleTextEditingController.text,
                         date: dateTextEditingController.text),
                   );
