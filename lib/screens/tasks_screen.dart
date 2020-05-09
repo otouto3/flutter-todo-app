@@ -6,22 +6,11 @@ import '../models/todo_model.dart';
 import '../widget/todo_list.dart';
 
 class TasksScreen extends StatefulWidget {
-  TasksScreen({this.payload = ""});
-
-  final String payload;
-
   @override
   _TasksScreenState createState() => _TasksScreenState();
 }
 
 class _TasksScreenState extends State<TasksScreen> {
-  String _payload;
-  @override
-  void initState() {
-    super.initState();
-    _payload = widget.payload;
-  }
-
   Widget builderBottomSheet(BuildContext context) {
     return Container();
   }
@@ -33,7 +22,7 @@ class _TasksScreenState extends State<TasksScreen> {
     } else if (num == 1) {
       return "1 task";
     } else {
-      return "$num $_payload tasks";
+      return "$num tasks";
     }
   }
 

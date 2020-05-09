@@ -19,10 +19,8 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
   @override
   Widget build(BuildContext context) {
     final task = widget.task;
-    final titleTextEditingController =
-        TextEditingController(text: task.title);
-    final dateTextEditingController =
-        TextEditingController(text: task.date);
+    final titleTextEditingController = TextEditingController(text: task.title);
+    final dateTextEditingController = TextEditingController(text: task.date);
     return Container(
       color: Color(0xff757575),
       child: Container(
