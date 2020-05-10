@@ -51,6 +51,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   final dateTextEditingController = TextEditingController();
   final reminderTextEditingController = TextEditingController();
 
+  bool _switchValue = false;
+
   @override
   void initState() {
     super.initState();
@@ -182,33 +184,57 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 }
               },
             ),
-            Text(
-              'Reminder',
-              style: TextStyle(
-                fontSize: 20.0,
-                color: Colors.cyan[300],
+            SwitchListTile(
+                value: _switchValue,
+                activeColor: Colors.cyan,
+                activeTrackColor: Colors.cyan,
+                inactiveThumbColor: Colors.grey,
+                inactiveTrackColor: Colors.grey,
+                secondary: Icon(
+                  Icons.notifications,
+                  color: _switchValue ? Colors.cyan : Colors.grey[500],
+                  size: 40.0,
+                ),
+                title: Text('Reminder'),
+                //subtitle: Text('サブタイトル'),
+                onChanged: (bool value) {
+                  setState(() {
+                    _switchValue = value;
+                  });
+                }),
+            Visibility(
+              visible: _switchValue,
+              child: Text(
+                'Reminder',
+                style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.cyan[300],
+                ),
               ),
             ),
-            DateTimeField(
-              format: format,
-              controller: reminderTextEditingController,
-              onShowPicker: (context, currentValue) async {
-                final date = await showDatePicker(
-                    context: context,
-                    firstDate: DateTime(1900),
-                    initialDate: currentValue ?? DateTime.now(),
-                    lastDate: DateTime(2100));
-                if (date != null) {
-                  final time = await showTimePicker(
-                    context: context,
-                    initialTime:
-                        TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),
-                  );
-                  return DateTimeField.combine(date, time);
-                } else {
-                  return currentValue;
-                }
-              },
+            Visibility(
+              visible: _switchValue,
+              child: DateTimeField(
+                format: format,
+                controller: reminderTextEditingController,
+                onShowPicker: (context, currentValue) async {
+                  final date = await showDatePicker(
+                      context: context,
+                      firstDate: DateTime(1900),
+                      initialDate: currentValue ?? DateTime.now(),
+                      lastDate: DateTime(2100));
+                  if (date != null) {
+                    final time = await showTimePicker(
+                      context: context,
+                      initialTime: TimeOfDay.fromDateTime(
+                          currentValue ?? DateTime.now()),
+                    );
+                    return DateTimeField.combine(date, time);
+                  } else {
+                    return currentValue;
+                  }
+                },
+              ),
             ),
             FlatButton(
               child: Text(
@@ -242,7 +268,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   Provider.of<TodoModel>(context, listen: false).add(Todo(
                       title: titleTextEditingController.text,
                       date: dateTextEditingController.text));
-                  if (reminderTextEditingController.text != "") {
+                  if (reminderTextEditingController.text != "" &&
+                      _switchValue == true) {
                     setupNotificationPlugin();
                     setupNotification(titleTextEditingController.text,
                         reminderTextEditingController.text);
