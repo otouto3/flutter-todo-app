@@ -159,11 +159,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               textAlign: TextAlign.center,
             ),
             Text(
-              //'date',
-              Provider.of<TodoModel>(context, listen: false)
-                  .allTodoList
-                  .length
-                  .toString(),
+              'date',
               style: TextStyle(
                 fontSize: 20.0,
                 color: Colors.cyan[300],
@@ -275,14 +271,20 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 } else {
 //                  print(titleTextEditingController.text);
 //                  print(dateTextEditingController.text);
-                  Provider.of<TodoModel>(context, listen: false).add(Todo(
-                      title: titleTextEditingController.text,
-                      date: dateTextEditingController.text));
+
+                  // reminderTextが空白じゃない（時刻入力がされている）かつreminderのスイッチが押されている
                   if (reminderTextEditingController.text != "" &&
                       _switchValue == true) {
-                    setupNotification(titleTextEditingController.text,
+                    setupNotification(
+                        titleTextEditingController.text,
+                        dateTextEditingController.text,
                         reminderTextEditingController.text);
                     getNotification();
+                  } else {
+                    Provider.of<TodoModel>(context, listen: false).add(Todo(
+                        title: titleTextEditingController.text,
+                        date: dateTextEditingController.text,
+                        notificationDate: reminderTextEditingController.text));
                   }
                   Navigator.pop(context);
                 }
@@ -298,9 +300,10 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     var pendingNotificationRequests =
         await flutterLocalNotificationsPlugin.pendingNotificationRequests();
     for (int i = 0; i < pendingNotificationRequests.length; i++) {
-      print(pendingNotificationRequests[i].id);
+      print(" id は ${pendingNotificationRequests[i].id}");
       print(pendingNotificationRequests[i].title);
     }
+    //await flutterLocalNotificationsPlugin.cancel(10);
   }
 
   void setupNotificationPlugin() {
@@ -355,7 +358,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             ));
   }
 
-  void setupNotification(String title, String reminderDate) async {
+  void setupNotification(String title, String date, String reminderDate) async {
     DateTime taskDate = DateTime.parse(reminderDate);
     DateTime dateFrom = DateTime(taskDate.year, taskDate.month, taskDate.day,
         taskDate.hour, taskDate.minute, taskDate.second);
@@ -366,26 +369,24 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     int interval = (dateFrom.difference(dateTo)).inSeconds;
     print(interval);
 
-    //Todoのidとnotificationのidを紐づける
-    //notificationと同時にタスクも作られるので，現時点の最後のタスクのid+1（新しいタスクに割り当てられるid）をnotificationと紐づける
-    //print(Provider.of<TodoModel>(context, listen: false).allTodoList == null);
-    TodoModel todoModel = Provider.of<TodoModel>(context, listen: false);
-    int todoId;
+    int notificationId = 0;
+    int taskLatestId;
 
-    if (todoModel.allTodoList.length != 0) {
-      todoId = 1 + todoModel.allTodoList.last.id;
-      print("id $todoId");
-    } else {
-      //タスクが存在しないとidと紐づけられないので,仮のタスクを作成し，idだけ取得し，仮のタスクを削除する
-      todoModel.add(Todo(
-        title: 'temp',
-        date: "",
-      ));
-      Todo task = todoModel.allTodoList.last;
-      int taskLatestId = task.id;
-      todoId = 1 + taskLatestId;
-      Provider.of<TodoModel>(context, listen: false).remove(task);
+    // DBからタスクを取得できなかったらnotification id=0としてnotificationする
+    // DBにタスクを追加→取得の順番のはずなので，本来ならこの処理はいらない
+    List taskList = Provider.of<TodoModel>(context, listen: false).allTodoList;
+    if (taskList.length != 0) {
+      Todo task = taskList.last;
+      taskLatestId = task.id;
+      notificationId = 1 + taskLatestId;
     }
+
+    Provider.of<TodoModel>(context, listen: false).add(Todo(
+        title: titleTextEditingController.text,
+        date: dateTextEditingController.text,
+        notificationId: notificationId,
+        notificationDate: reminderTextEditingController.text));
+
     var scheduledNotificationDateTime =
         DateTime.now().add(Duration(seconds: interval));
 
@@ -396,7 +397,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
 
     await flutterLocalNotificationsPlugin.schedule(
-        todoId,
+        notificationId,
         title,
         "$title + の時間です",
         scheduledNotificationDateTime,

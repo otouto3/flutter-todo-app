@@ -123,6 +123,8 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
 //                    print(task.id);
 //                    print(task.title);
 //                    print(task.date);
+//                    print(task.notificationId);
+//                    print(task.notificationDate);
 //                  }
                   Navigator.pop(context);
                 }

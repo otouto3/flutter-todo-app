@@ -67,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage>
       ),
       BottomNavigationBarItem(
         icon: Icon(
-          Icons.date_range,
+          Icons.event_note,
           size: 30.0,
           color: Colors.black,
         ),
