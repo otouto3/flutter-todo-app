@@ -18,10 +18,9 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final titleTextEditingController =
-        TextEditingController(text: widget.task.title);
-    final dateTextEditingController =
-        TextEditingController(text: widget.task.date);
+    final task = widget.task;
+    final titleTextEditingController = TextEditingController(text: task.title);
+    final dateTextEditingController = TextEditingController(text: task.date);
     return Container(
       color: Color(0xff757575),
       child: Container(
@@ -113,7 +112,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                   Provider.of<TodoModel>(context, listen: false).update(
                     //updateの時はidを指定しないといけない
                     Todo(
-                        id: widget.task.id,
+                        id: task.id,
                         title: titleTextEditingController.text,
                         date: dateTextEditingController.text),
                   );
@@ -124,6 +123,8 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
 //                    print(task.id);
 //                    print(task.title);
 //                    print(task.date);
+//                    print(task.notificationId);
+//                    print(task.notificationDate);
 //                  }
                   Navigator.pop(context);
                 }

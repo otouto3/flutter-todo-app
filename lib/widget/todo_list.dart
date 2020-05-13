@@ -22,6 +22,7 @@ class TodoList extends StatelessWidget {
         return TaskTile(
           taskTitle: task.title,
           taskDate: task.date,
+          taskNotificationDate: task.notificationDate,
           isChecked: task.isDone,
           checkboxCallback: (checkBoxState) {
             //taskData.updateTask(task);
