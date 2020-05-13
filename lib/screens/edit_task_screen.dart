@@ -159,26 +159,33 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                 color: Colors.cyan[300],
               ),
             ),
-            DateTimeField(
-              format: format,
-              controller: dateTextEditingController,
-              onShowPicker: (context, currentValue) async {
-                final date = await showDatePicker(
-                    context: context,
-                    firstDate: DateTime(1900),
-                    initialDate: currentValue ?? DateTime.now(),
-                    lastDate: DateTime(2100));
-                if (date != null) {
-                  final time = await showTimePicker(
-                    context: context,
-                    initialTime:
-                        TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),
-                  );
-                  return DateTimeField.combine(date, time);
-                } else {
-                  return currentValue;
-                }
-              },
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: DateTimeField(
+                    format: format,
+                    controller: dateTextEditingController,
+                    onShowPicker: (context, currentValue) async {
+                      final date = await showDatePicker(
+                          context: context,
+                          firstDate: DateTime(1900),
+                          initialDate: currentValue ?? DateTime.now(),
+                          lastDate: DateTime(2100));
+                      if (date != null) {
+                        final time = await showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay.fromDateTime(
+                              currentValue ?? DateTime.now()),
+                        );
+                        return DateTimeField.combine(date, time);
+                      } else {
+                        return currentValue;
+                      }
+                    },
+                  ),
+                ),
+                Icon(Icons.event_note),
+              ],
             ),
             SwitchListTile(
                 value: _switchValue,
@@ -214,26 +221,33 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
             ),
             Visibility(
               visible: _switchValue,
-              child: DateTimeField(
-                format: format,
-                controller: reminderTextEditingController,
-                onShowPicker: (context, currentValue) async {
-                  final date = await showDatePicker(
-                      context: context,
-                      firstDate: DateTime(1900),
-                      initialDate: currentValue ?? DateTime.now(),
-                      lastDate: DateTime(2100));
-                  if (date != null) {
-                    final time = await showTimePicker(
-                      context: context,
-                      initialTime: TimeOfDay.fromDateTime(
-                          currentValue ?? DateTime.now()),
-                    );
-                    return DateTimeField.combine(date, time);
-                  } else {
-                    return currentValue;
-                  }
-                },
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: DateTimeField(
+                      format: format,
+                      controller: reminderTextEditingController,
+                      onShowPicker: (context, currentValue) async {
+                        final date = await showDatePicker(
+                            context: context,
+                            firstDate: DateTime(1900),
+                            initialDate: currentValue ?? DateTime.now(),
+                            lastDate: DateTime(2100));
+                        if (date != null) {
+                          final time = await showTimePicker(
+                            context: context,
+                            initialTime: TimeOfDay.fromDateTime(
+                                currentValue ?? DateTime.now()),
+                          );
+                          return DateTimeField.combine(date, time);
+                        } else {
+                          return currentValue;
+                        }
+                      },
+                    ),
+                  ),
+                  Icon(Icons.notifications),
+                ],
               ),
             ),
             FlatButton(
