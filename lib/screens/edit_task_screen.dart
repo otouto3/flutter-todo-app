@@ -281,17 +281,17 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                       task.notificationId,
                       task.id,
                       reminderTextEditingController.text);
-                  List list = (Provider.of<TodoModel>(context, listen: false)
-                      .incompletedTodoList);
-
-                  for (int i = 0; i < list.length; i++) {
-                    Todo task = list[i];
-                    print(task.id);
-                    print(task.title);
-                    print(task.date);
-                    print(task.notificationId);
-                    print(task.notificationDate);
-                  }
+//                  List list = (Provider.of<TodoModel>(context, listen: false)
+//                      .incompletedTodoList);
+                  //デバッグ用
+//                  for (int i = 0; i < list.length; i++) {
+//                    Todo task = list[i];
+//                    print(task.id);
+//                    print(task.title);
+//                    print(task.date);
+//                    print(task.notificationId);
+//                    print(task.notificationDate);
+//                  }
                   Navigator.pop(context);
                 }
               },
