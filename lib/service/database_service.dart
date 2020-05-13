@@ -6,11 +6,11 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseService {
-  static final _databaseVersion = 2;
-  static final _databaseName = "todo2.db";
+  static final _databaseVersion = 6;
+  static final _databaseName = "todo6.db";
 
   //tableName
-  static final todoTableName = "todo2";
+  static final todoTableName = "todo6";
 
   static final DatabaseService dbProvider = DatabaseService();
 
@@ -42,6 +42,8 @@ class DatabaseService {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT NOT NULL,
         date TEXT,
+        notificationDate TEXT,
+        notificationId INTEGER,
         is_done INTEGER NOT NULL
       )
     ''');

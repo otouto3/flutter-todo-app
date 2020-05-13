@@ -4,6 +4,7 @@ class TaskTile extends StatelessWidget {
   final bool isChecked;
   final String taskTitle;
   final String taskDate;
+  final String taskNotificationDate;
   final Function checkboxCallback;
   final Function editButtonCallback;
   final Function deleteCallback;
@@ -12,11 +13,12 @@ class TaskTile extends StatelessWidget {
       {this.isChecked,
       this.taskTitle,
       this.taskDate,
+      this.taskNotificationDate,
       this.checkboxCallback,
       this.editButtonCallback,
       this.deleteCallback});
 
-  String showDate(String taskDate) {
+  String formatDate(String taskDate) {
     if (taskDate == "") {
       return taskDate;
     } else {
@@ -25,10 +27,20 @@ class TaskTile extends StatelessWidget {
       String day = date.day.toString();
       String hour = date.hour.toString();
       // 13時04分だったら 13:4と表示せずに13:04とするようにした
-      String minute = date.minute >= 9
+      String minute = date.minute > 9
           ? date.minute.toString()
           : '0' + date.minute.toString();
       return month + "/" + day + " " + hour + ":" + minute;
+    }
+  }
+
+  String showDate(String taskDate, String taskNotificationDate) {
+    if (taskNotificationDate == "") {
+      return formatDate(taskDate);
+    } else if (taskDate == "") {
+      return formatDate(taskNotificationDate);
+    } else {
+      return formatDate(taskDate) + "\n" + formatDate(taskNotificationDate);
     }
   }
 
@@ -48,8 +60,6 @@ class TaskTile extends StatelessWidget {
           onChanged: checkboxCallback,
         ),
         trailing: Wrap(
-          //mainAxisSize: MainAxisSize.min,
-          spacing: 0,
           children: <Widget>[
             IconButton(
               icon: Icon(Icons.edit),
@@ -61,26 +71,8 @@ class TaskTile extends StatelessWidget {
             ),
           ],
         ),
-//        trailing: Row(
-//          //spacing: -60,
-//          mainAxisSize: MainAxisSize.min,
-//          children: <Widget>[
-//            ButtonTheme(
-//              minWidth: 3.0,
-//              child: FlatButton(
-//                child: Icon(Icons.edit),
-//                onPressed: () {},
-//              ),
-//            ),
-//            ButtonTheme(
-//              minWidth: 3,
-//              child: FlatButton(
-//                child: Icon(Icons.delete),
-//                onPressed: deleteCallback,
-//              ),
-//            ),
-//          ],
-//        ),
+        isThreeLine: true,
+        dense: true,
         title: Text(
           taskTitle,
           style: TextStyle(
@@ -89,12 +81,34 @@ class TaskTile extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        subtitle: Text(
-          showDate(taskDate),
-          style: TextStyle(
-            decoration: isChecked ? TextDecoration.lineThrough : null,
-            fontSize: 20.0,
-          ),
+        subtitle: Row(
+          children: <Widget>[
+            Flexible(
+              child: Text(
+                showDate(taskDate, taskNotificationDate),
+                style: TextStyle(
+                  decoration: isChecked ? TextDecoration.lineThrough : null,
+                  fontSize: 20.0,
+                ),
+              ),
+            ),
+            Column(
+              children: <Widget>[
+                Visibility(
+                  visible: taskDate != "" ? true : false,
+                  child: Icon(
+                    Icons.event_note,
+                  ),
+                ),
+                Visibility(
+                  visible: taskNotificationDate != "" ? true : false,
+                  child: Icon(
+                    Icons.notifications,
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
