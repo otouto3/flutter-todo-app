@@ -302,6 +302,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     for (int i = 0; i < pendingNotificationRequests.length; i++) {
       print(" id は ${pendingNotificationRequests[i].id}");
       print(pendingNotificationRequests[i].title);
+//      await flutterLocalNotificationsPlugin
+//          .cancel(pendingNotificationRequests[i].id);
     }
     //await flutterLocalNotificationsPlugin.cancel(10);
   }
