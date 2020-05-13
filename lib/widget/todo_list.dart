@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/widget/task_tile.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
 import '../models/todo.dart';
 import '../models/todo_model.dart';
 import '../screens/edit_task_screen.dart';
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
 class TodoList extends StatelessWidget {
   final List<Todo> todoList;
@@ -57,8 +62,12 @@ class TodoList extends StatelessWidget {
                     ),
                     FlatButton(
                       child: Text("OK"),
-                      onPressed: () {
+                      onPressed: () async {
                         Navigator.pop(context);
+                        if (task.notificationId != null) {
+                          await flutterLocalNotificationsPlugin
+                              .cancel(task.notificationId);
+                        }
                         todoModel.remove(task);
                       },
                     ),
