@@ -22,6 +22,7 @@ class TodoList extends StatelessWidget {
       return Center(child: Text(""));
     }
     return ListView.builder(
+      padding: EdgeInsets.only(bottom: 70.0),
       itemBuilder: (context, index) {
         final task = todoList[index];
         return TaskTile(
